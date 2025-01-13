@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class warhead_controller : MonoBehaviour
 {
-    // Update is called once per frame
+    private GameObject smoke_trail;
+
     void Update()
     {
-        //Enable smoke effect if the RPG become detached from its parent
-        if(gameObject.transform.parent == null)
+        // Enable smoke effect if the RPG becomes detached from its parent
+        if (gameObject.transform.parent == null)
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(true);
-
-        };
-
+            smoke_trail = gameObject.transform.GetChild(0).gameObject;
+            smoke_trail.SetActive(true);
+        }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        smoke_trail.transform.parent = null;
+        Destroy(gameObject);
+    }
+
 }
+
